@@ -73,8 +73,8 @@ router.get('/:id', function(req, res, next) {
   }).then(function (poll) {
     models.poll_histories.count({ where: { poll_id: req.params.id, answer: 'A' }}).then(function(cntA) {
       models.poll_histories.count({ where: { poll_id: req.params.id, answer: 'B' }}).then(function(cntB) {
-        poll.dataValues['count_a'] = cntA;
-        poll.dataValues['count_b'] = cntB;
+        poll.dataValues['count_A'] = cntA;
+        poll.dataValues['count_B'] = cntB;
 
         res.json({
           result: 1,
