@@ -53,6 +53,13 @@ module.exports = function(sequelize, DataTypes) {
       get: function() {
         return moment(this.getDataValue('created_at')).format("YYYY-MM-DD HH:mm:ss");
       }
+    },
+    expired_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      get: function() {
+        return moment(this.getDataValue('created_at')).format("YYYY-MM-DD HH:mm:ss");
+      }
     }
   }, {
     freezeTableName: true, // Model tableName will be the same as the model name

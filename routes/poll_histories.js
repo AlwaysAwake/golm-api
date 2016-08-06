@@ -13,23 +13,38 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  var pollHistory = models.poll_histories.build({
-    user_id: req.body.user_id,
-    poll_id: req.body.poll_id,
-    answer: req.body.answer,
-    comment: req.body.comment,
-  });
+  models.poll_histories.findOne({
+    where : {
+      user_id: req.body.user_id,
+      poll_id: req.body.poll_id,
+    }
+  }).then(function(pollHistory) {
+    console.log(pollHistory);
 
-  pollHistory.save().then(function() {
-    res.json({
-      result: 1
-    });
-  }).catch(function(e) {
-    console.log(e);
+    if (pollHistory) {
+      res.json({
+        result: 0,
+        err: 'Already polled user.'
+      });
+    } else {
+      var pollHistory = models.poll_histories.build({
+        user_id: req.body.user_id,
+        poll_id: req.body.poll_id,
+        answer: req.body.answer,
+        comment: req.body.comment,
+      });
 
-    res.json({
-      result: 0
-    });
+      pollHistory.save().then(function() {
+        res.json({
+          result: 1
+        });
+      }).catch(function(err) {
+        res.json({
+          result: 0,
+          err: err
+        });
+      });
+    }
   });
 });
 

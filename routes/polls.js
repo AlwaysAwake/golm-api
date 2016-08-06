@@ -45,13 +45,30 @@ router.post('/', function(req, res, next) {
     img_A: req.body.img_A,
     img_B: req.body.img_B,
     description_A: req.body.description_A,
-    description_B: req.body.description_B
+    description_B: req.body.description_B,
+    expired_at: req.body.expired_at
   });
 
-  poll.save().then(function() {
-    res.json({
-      result: 1
-    });
+  poll.save().then(function(poll) {
+    if (req.body.type === 'premium') {
+      console.log(poll);
+
+      var premium_poll = models.premium_polls.build({
+        poll_id: poll.id,
+        price: req.body.price,
+        total_applicant: req.body.applicant,
+      });
+
+      premium_poll.save().then(function(premiumPoll) {
+        res.json({
+          result: 1
+        });
+      });
+    } else {
+      res.json({
+        result: 1
+      });
+    }
   }).catch(function(e) {
     console.log(e);
 
