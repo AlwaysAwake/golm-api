@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
 
 var models = require('../models');
 
@@ -11,7 +12,12 @@ router.get('/', function(req, res, next) {
       include: [{
         model: models.users
       }]
-    }]
+    }],
+    where: {
+      expired_at: {
+        $gt: new Date(moment())
+      }
+    }
   }).then(function (polls) {
     res.json({
       result: 1,
