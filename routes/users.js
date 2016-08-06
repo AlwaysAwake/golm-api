@@ -11,21 +11,28 @@ router.get('/', function(req, res, next) {
 router.post('/signin', function(req, res, next) {
   models.users.findOne({
     where : {
-      email: req.body.email,
-      password: req.body.password
+      email: req.body.user.email,
+      password: req.body.user.password
     }
   }).then(function(user) {
-    res.json({
-      result: 1,
-      user: user
-    });
+    if (user) {
+      res.json({
+        result: 1,
+        user: user
+      });
+    } else {
+      res.json({
+        result: 0,
+        err: 'Email or password is invalid.'
+      });
+    }
   });
 });
 
 router.post('/signup', function(req, res, next) {
   models.users.findOne({
     where : {
-      email: req.body.email
+      email: req.body.user.email
     }
   }).then(function(user) {
     if (user) {
@@ -35,10 +42,10 @@ router.post('/signup', function(req, res, next) {
       });
     } else {
       var user = models.users.build({
-        email: req.body.email,
-        password: req.body.password,
-        nickname: req.body.nickname,
-        phone: req.body.phone
+        email: req.body.user.email,
+        password: req.body.user.password,
+        nickname: req.body.user.nickname,
+        phone: req.body.user.phone
       });
 
       user.save().then(function(user) {
