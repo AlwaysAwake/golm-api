@@ -64,6 +64,9 @@ module.exports = function(sequelize, DataTypes) {
         Polls.hasMany(models.poll_histories, {
           foreignKey: 'poll_id'
         });
+        Polls.hasOne(models.premium_polls, {
+          foreignKey: 'poll_id'
+        });
       }
     }
   });

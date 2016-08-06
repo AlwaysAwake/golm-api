@@ -12,6 +12,8 @@ router.get('/', function(req, res, next) {
       include: [{
         model: models.users
       }]
+    }, {
+      model: models.premium_polls
     }],
     where: {
       expired_at: {
@@ -66,6 +68,8 @@ router.get('/:id', function(req, res, next) {
       include: [{
         model: models.users
       }]
+    }, {
+      model: models.premium_polls
     }],
     where: {
       id: req.params.id
