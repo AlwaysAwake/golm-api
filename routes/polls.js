@@ -59,4 +59,29 @@ router.post('/', function(req, res, next) {
   });
 });
 
+router.get('/:id', function(req, res, next) {
+  models.polls.findOne({
+    include: [{
+      model: models.poll_histories,
+      include: [{
+        model: models.users
+      }]
+    }],
+    where: {
+      id: req.params.id
+    }
+  }).then(function (poll) {
+    res.json({
+      result: 1,
+      poll: poll
+    });
+  }).catch(function(e) {
+    console.log(e);
+
+    res.json({
+      result: 0
+    });
+  });
+});
+
 module.exports = router;
