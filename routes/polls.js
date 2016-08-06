@@ -71,9 +71,29 @@ router.get('/:id', function(req, res, next) {
       id: req.params.id
     }
   }).then(function (poll) {
+      res.json({
+        result: 1,
+        poll: poll
+      });
+  }).catch(function(e) {
+    console.log(e);
+
+    res.json({
+      result: 0
+    });
+  });
+});
+
+router.post('/:id/able', function(req, res, next) {
+  models.poll_histories.findOne({
+    where: {
+      poll_id: req.params.id,
+      user_id: req.body.userId
+    }
+  }).then(function (pollHistory) {
     res.json({
       result: 1,
-      poll: poll
+      pollHistory: pollHistory
     });
   }).catch(function(e) {
     console.log(e);
