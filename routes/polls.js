@@ -5,7 +5,7 @@ var models = require('../models');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  models.polls.find({
+  models.polls.findAll({
     include: [{
       model: models.poll_histories,
       include: [{
