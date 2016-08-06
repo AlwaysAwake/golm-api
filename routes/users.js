@@ -8,4 +8,42 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.post('/signin', function(req, res, next) {
+  models.users.findOne({
+    where : {
+      email: req.body.email,
+      password: req.body.password
+    }
+  }).then(function(user) {
+    res.json({
+      result: 1,
+      user: user
+    });
+  });
+});
+
+router.post('/signup', function(req, res, next) {
+  var user = models.users.build({
+    email: req.body.email,
+    password: req.body.password,
+    nickname: req.body.nickname,
+    phone: req.body.phone
+  });
+
+  user.save().then(function(user) {
+    console.log(user);
+
+    res.json({
+      result: 1,
+      user: user
+    });
+  }).catch(function(e) {
+    console.log(e);
+
+    res.json({
+      result: 0
+    });
+  });
+});
+
 module.exports = router;
