@@ -71,10 +71,16 @@ router.get('/:id', function(req, res, next) {
       id: req.params.id
     }
   }).then(function (poll) {
-      res.json({
-        result: 1,
-        poll: poll
+    models.poll_histories.count({ where: { poll_id: req.params.id, answer: 'A' }}).then(function(cntA) {
+      models.poll_histories.count({ where: { poll_id: req.params.id, answer: 'B' }}).then(function(cntB) {
+        res.json({
+          result: 1,
+          poll: poll,
+          count_a: cntA,
+          count_b: cntB
+        });
       });
+    });
   }).catch(function(e) {
     console.log(e);
 
