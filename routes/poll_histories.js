@@ -1,12 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
+var models = require('../models');
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 
 
   res.json({
-    result: 1,
-
+    result: 1
   });
 });
+
+module.exports = router;
